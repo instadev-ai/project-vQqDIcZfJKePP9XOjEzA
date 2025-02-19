@@ -1,75 +1,93 @@
-import { cn } from "@/lib/utils"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button"
-import { ChevronRight } from "lucide-react"
-import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-
-const navigation = [
-  {
-    title: "Getting Started",
-    links: [
-      { title: "Introduction", href: "/#introduction" },
-      { title: "Installation", href: "/#installation" },
-      { title: "Quick Start", href: "/#quick-start" },
-    ],
-  },
-  {
-    title: "Components",
-    links: [
-      { title: "Button", href: "/components/button" },
-      { title: "Card", href: "/components/card" },
-      { title: "Input", href: "/components/input" },
-    ],
-  },
-]
+import { cn } from "@/lib/utils"
+import { ScrollArea } from "../ui/scroll-area"
 
 export function DocsSidebar() {
-  const [isOpen, setIsOpen] = useState(true)
   const location = useLocation()
 
+  const items = [
+    {
+      title: "Getting Started",
+      items: [
+        {
+          title: "Introduction",
+          href: "/",
+        },
+        {
+          title: "Installation",
+          href: "/installation",
+        },
+        {
+          title: "Theming",
+          href: "/theming",
+        },
+      ],
+    },
+    {
+      title: "Components",
+      items: [
+        {
+          title: "Button",
+          href: "/components/button",
+        },
+        {
+          title: "Card",
+          href: "/components/card",
+        },
+        {
+          title: "Input",
+          href: "/components/input",
+        },
+        {
+          title: "Dialog",
+          href: "/components/dialog",
+        },
+        {
+          title: "Select",
+          href: "/components/select",
+        },
+        {
+          title: "Tabs",
+          href: "/components/tabs",
+        },
+        {
+          title: "Toast",
+          href: "/components/toast",
+        },
+      ],
+    },
+  ]
+
   return (
-    <div className={cn(
-      "fixed top-0 left-0 z-30 h-screen w-full border-r bg-background lg:w-80",
-      !isOpen && "w-16 lg:w-16"
-    )}>
-      <div className="flex h-14 items-center px-4 py-4 lg:h-[60px]">
-        <Button
-          variant="ghost"
-          className="ml-auto h-8 w-8 px-0"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <ChevronRight className={cn(
-            "h-4 w-4 transition-transform",
-            !isOpen && "rotate-180"
-          )} />
-        </Button>
+    <div className="h-screen border-r bg-background">
+      <div className="h-[60px] border-b px-6 py-3 font-semibold">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="text-xl">Docs</span>
+        </Link>
       </div>
-      {isOpen && (
-        <ScrollArea className="h-[calc(100vh-56px)]">
-          <div className="px-4 py-2">
-            {navigation.map((section) => (
-              <div key={section.title} className="mb-4">
-                <h4 className="mb-2 text-sm font-semibold">{section.title}</h4>
-                <div className="space-y-1">
-                  {section.links.map((link) => (
-                    <Link
-                      key={link.href}
-                      to={link.href}
-                      className={cn(
-                        "block rounded-md px-2 py-1 text-sm hover:bg-accent",
-                        location.pathname === link.href && "bg-accent"
-                      )}
-                    >
-                      {link.title}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
-      )}
+      <ScrollArea className="h-[calc(100vh-60px)] pb-10">
+        <div className="px-4 py-2">
+          {items.map((section, index) => (
+            <div key={index} className="py-4">
+              <h4 className="mb-2 px-2 text-sm font-semibold">{section.title}</h4>
+              {section.items.map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={cn(
+                    "block rounded-md px-2 py-1.5 text-sm hover:bg-accent",
+                    location.pathname === item.href
+                      ? "bg-accent font-medium text-accent-foreground"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   )
 }

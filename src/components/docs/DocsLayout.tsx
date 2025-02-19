@@ -1,20 +1,41 @@
-import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { Outlet } from "react-router-dom"
 import { DocsSidebar } from "./DocsSidebar"
+import { Button } from "../ui/button"
+import { Menu } from "lucide-react"
 
-interface DocsLayoutProps {
-  children: React.ReactNode
-}
+export default function DocsLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(true)
 
-export default function DocsLayout({ children }: DocsLayoutProps) {
   return (
-    <div className="flex min-h-screen">
-      <DocsSidebar />
-      <main className={cn(
-        "flex-1 px-4 md:px-8 py-6 md:py-8",
-        "prose prose-slate dark:prose-invert max-w-none"
-      )}>
-        {children}
-      </main>
+    <div className="min-h-screen bg-background">
+      {/* Mobile menu button */}
+      <Button
+        variant="ghost"
+        size="icon"
+        className="fixed top-4 left-4 z-50 md:hidden"
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+      >
+        <Menu className="h-6 w-6" />
+      </Button>
+
+      <div className="flex">
+        {/* Sidebar */}
+        <div
+          className={`fixed top-0 left-0 z-40 h-screen w-64 transform transition-transform duration-200 ease-in-out 
+            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+            md:relative md:translate-x-0`}
+        >
+          <DocsSidebar />
+        </div>
+
+        {/* Main content */}
+        <div className="flex-1 p-8 md:ml-64">
+          <div className="mx-auto max-w-4xl">
+            <Outlet />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
