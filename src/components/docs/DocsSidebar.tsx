@@ -17,6 +17,7 @@ const navigation = [
   {
     title: "Components",
     links: [
+      { title: "Button", href: "/components/button" },
       { title: "Card", href: "/components/card" },
       { title: "Input", href: "/components/input" },
     ],
@@ -29,52 +30,46 @@ export function DocsSidebar() {
 
   return (
     <div className={cn(
-      "border-r bg-background",
-      isOpen ? "w-64" : "w-16",
-      "transition-all duration-300 ease-in-out"
+      "fixed top-0 left-0 z-30 h-screen w-full border-r bg-background lg:w-80",
+      !isOpen && "w-16 lg:w-16"
     )}>
-      <div className="sticky top-0 h-screen">
-        <div className="flex h-16 items-center border-b px-4">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <ChevronRight className={cn(
-              "h-4 w-4 transition-transform",
-              isOpen ? "rotate-180" : ""
-            )} />
-          </Button>
-          {isOpen && (
-            <span className="ml-2 text-lg font-semibold">Documentation</span>
-          )}
-        </div>
-        <ScrollArea className="h-[calc(100vh-4rem)] py-4">
-          {isOpen && (
-            <div className="px-4">
-              {navigation.map((section) => (
-                <div key={section.title} className="mb-4">
-                  <h4 className="mb-2 text-sm font-semibold">{section.title}</h4>
-                  <div className="space-y-1">
-                    {section.links.map((link) => (
-                      <Link
-                        key={link.href}
-                        to={link.href}
-                        className={cn(
-                          "block rounded-md px-2 py-1 text-sm hover:bg-accent",
-                          location.pathname === link.href && "bg-accent"
-                        )}
-                      >
-                        {link.title}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </ScrollArea>
+      <div className="flex h-14 items-center px-4 py-4 lg:h-[60px]">
+        <Button
+          variant="ghost"
+          className="ml-auto h-8 w-8 px-0"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <ChevronRight className={cn(
+            "h-4 w-4 transition-transform",
+            !isOpen && "rotate-180"
+          )} />
+        </Button>
       </div>
+      {isOpen && (
+        <ScrollArea className="h-[calc(100vh-56px)]">
+          <div className="px-4 py-2">
+            {navigation.map((section) => (
+              <div key={section.title} className="mb-4">
+                <h4 className="mb-2 text-sm font-semibold">{section.title}</h4>
+                <div className="space-y-1">
+                  {section.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      className={cn(
+                        "block rounded-md px-2 py-1 text-sm hover:bg-accent",
+                        location.pathname === link.href && "bg-accent"
+                      )}
+                    >
+                      {link.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      )}
     </div>
   )
 }
