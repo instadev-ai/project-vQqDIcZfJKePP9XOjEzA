@@ -5,9 +5,9 @@ import CardPage from "@/pages/components/CardPage"
 import InputPage from "@/pages/components/InputPage"
 import ButtonPage from "@/pages/components/ButtonPage"
 
-function App() {
+export default function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="docs-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <Router>
         <Routes>
           <Route path="/" element={<DocsPage />} />
