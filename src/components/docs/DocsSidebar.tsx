@@ -3,28 +3,29 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
 import { useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 
 const navigation = [
   {
     title: "Getting Started",
     links: [
-      { title: "Introduction", href: "#introduction" },
-      { title: "Installation", href: "#installation" },
-      { title: "Quick Start", href: "#quick-start" },
+      { title: "Introduction", href: "/#introduction" },
+      { title: "Installation", href: "/#installation" },
+      { title: "Quick Start", href: "/#quick-start" },
     ],
   },
   {
     title: "Components",
     links: [
-      { title: "Button", href: "#button" },
-      { title: "Card", href: "#card" },
-      { title: "Input", href: "#input" },
+      { title: "Card", href: "/components/card" },
+      { title: "Input", href: "/components/input" },
     ],
   },
 ]
 
 export function DocsSidebar() {
   const [isOpen, setIsOpen] = useState(true)
+  const location = useLocation()
 
   return (
     <div className={cn(
@@ -56,13 +57,16 @@ export function DocsSidebar() {
                   <h4 className="mb-2 text-sm font-semibold">{section.title}</h4>
                   <div className="space-y-1">
                     {section.links.map((link) => (
-                      <a
+                      <Link
                         key={link.href}
-                        href={link.href}
-                        className="block rounded-md px-2 py-1 text-sm hover:bg-accent"
+                        to={link.href}
+                        className={cn(
+                          "block rounded-md px-2 py-1 text-sm hover:bg-accent",
+                          location.pathname === link.href && "bg-accent"
+                        )}
                       >
                         {link.title}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
